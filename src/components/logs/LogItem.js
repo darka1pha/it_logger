@@ -1,11 +1,11 @@
 import React from 'react'
 import Moment from 'react-moment'
 import { connect } from 'react-redux'
-import { deleteLog } from '../../actions/logActions'
+import { deleteLog , setCurrent } from '../../actions/logActions'
 
 import M from 'materialize-css/dist/js/materialize.min.js'
 
-const LogItem = ({log , deleteLog}) => {
+const LogItem = ({log , deleteLog ,setCurrent}) => {
 
     const onDelete = () => {
         deleteLog(log.id)
@@ -19,7 +19,8 @@ const LogItem = ({log , deleteLog}) => {
                 <a 
                     className={`modal-trigger 
                                 ${log.attention ? 'pink-text' : 'blue-text'}`} 
-                    href="#edit-log-modal">{log.message}</a>
+                    href="#edit-log-modal"
+                    onClick={()=> setCurrent(log)}>{log.message}</a>
                 <br/>
                 <span className='grey-text'>
                     <span className='black-text'>
@@ -42,4 +43,4 @@ const LogItem = ({log , deleteLog}) => {
     )
 }
 
-export default connect(null , {deleteLog}) (LogItem)
+export default connect(null , {deleteLog , setCurrent}) (LogItem)

@@ -1,5 +1,19 @@
 {
-  "logs": [],
+  "logs": [
+    {
+      "id": 1,
+      "message": "dot dot ",
+      "attention": true,
+      "date": "2020-05-05T16:45:57.159Z"
+    },
+    {
+      "message": "dont dont",
+      "attention": true,
+      "tech": "Sam Smith",
+      "date": "2020-05-05T14:38:13.645Z",
+      "id": 2
+    }
+  ],
   "techs": [
     {
       "id": 1,

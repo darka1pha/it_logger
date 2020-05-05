@@ -3,7 +3,11 @@ import {
     SET_LOADING ,
     LOGS_ERROR ,
     ADD_LOG,
-    DELETE_LOG
+    DELETE_LOG,
+    SET_CURRENT,
+    CLEAR_CURRENT,
+    UPDATE_LOG,
+    SEARCH_LOGS
 
 } from './types'
 
@@ -22,7 +26,7 @@ export const getLogs = () => async dispatch => {
     } catch (err) {
         dispatch({
             type: LOGS_ERROR ,
-            payload: err.response.data
+            payload: err.response.statusText
         })
     } 
 }
@@ -58,7 +62,7 @@ export const addLog = (log) => async dispatch => {
     } catch (err) {
         return {
             type: LOGS_ERROR ,
-            payload : err.response.data
+            payload : err.response.statusText
         }
     }
 }
@@ -79,7 +83,70 @@ export const deleteLog = (id) => async dispatch => {
     } catch (err) {
         dispatch({
             type: LOGS_ERROR ,
-            payload: err.response.data
+            payload: err.response.statusText
+        })
+    } 
+}
+
+// Set Current Log
+export const setCurrent = log => {
+    return {
+        type : SET_CURRENT ,
+        payload: log
+    }
+}
+
+// Clear Current Log
+export const clearCorrent = () => {
+    return {
+        type : CLEAR_CURRENT ,
+    }
+}
+
+// Update Log
+export const updateLog = log => async dispatch => { 
+    try {
+        setLoading()
+
+        const res = await fetch(`/logs/${log.id}` , {
+            method: 'PUT' ,
+            body: JSON.stringify(log),
+            headers : {
+                'Content-Type' : 'application/json'
+            }
+        })
+
+        const data = await res.json()
+
+        dispatch({
+            type: UPDATE_LOG ,
+            payload: data
+        })
+    } catch (err) {
+        dispatch({
+            type: LOGS_ERROR ,
+            payload: err.response.statusText
+        })
+    } 
+}
+
+//Search Logs
+
+export const searchLogs = (text) => async dispatch => { 
+    try {
+        setLoading()
+
+        const res = await fetch(`/logs?q=${text}`)
+        const data = await res.json()
+
+        dispatch({
+            type: SEARCH_LOGS ,
+            payload: data
+        })
+    } catch (err) {
+        dispatch({
+            type: LOGS_ERROR ,
+            payload: err.response.statusText
         })
     } 
 }
